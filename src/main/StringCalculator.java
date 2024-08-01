@@ -1,3 +1,9 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
+
 public class StringCalculator {
 
     // Method to add numbers in the string
@@ -8,12 +14,29 @@ public class StringCalculator {
             int sum = numbers.charAt(0) - '0';
             return sum;
         }
+
+        String delimiter = ",|\n"; // Default delimiters: comma or newline
+
         // If there is more than 1 number like (1, 2, 3, 4)
-        int sum = 0;
-        for (int i = 0; i < numbers.length(); i++) {
-            if (numbers.charAt(i) - '0' >= 0 && numbers.charAt(i) - '0' <= 9) {
-                sum += numbers.charAt(i) - '0';
+        if (numbers.startsWith("//")) {
+            Matcher matcher = Pattern.compile("//(.)\n(.*)").matcher(numbers);
+            if (matcher.matches()) {
+                delimiter = Pattern.quote(matcher.group(1)); // Custom delimiter
+                numbers = matcher.group(2); // Numbers part
             }
+        }
+
+        // Split the numbers using the delimiter
+        String[] numberArray = numbers.split(delimiter);
+        int sum = 0;
+        List<Integer> negativeNumbers = new ArrayList<>();
+
+        for (String number : numberArray) {
+            int num = Integer.parseInt(number.trim()); // Convert to integer
+            if (num < 0) {
+                negativeNumbers.add(num); // Collect negative numbers
+            }
+            sum += num; // Add the number to the sum
         }
         return sum;
     }
