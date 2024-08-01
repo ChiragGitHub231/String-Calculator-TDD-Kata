@@ -38,4 +38,10 @@ public class StringCalculatorTest {
         StringCalculator calculator = new StringCalculator();
         assertEquals(3, calculator.add("//;\n1;2"));
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeNumbersThrowException() {
+        StringCalculator calculator = new StringCalculator();
+        assertEquals(3, calculator.add("1,-2,3"));
+    }
 }

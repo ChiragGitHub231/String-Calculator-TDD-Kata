@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.*;
 import java.util.regex.*;
 
@@ -38,7 +37,22 @@ public class StringCalculator {
             }
             sum += num; // Add the number to the sum
         }
-        return sum;
+
+        if (numbers.startsWith("//")) {
+            Matcher matcher = Pattern.compile("//(.)\n(.*)").matcher(numbers);
+            if (matcher.matches()) {
+                delimiter = Pattern.quote(matcher.group(1)); // Custom delimiter
+                numbers = matcher.group(2); // Numbers part
+            }
+        }
+
+        // If negative numbers exist, throw an exception
+        if (!negativeNumbers.isEmpty()) {
+            throw new IllegalArgumentException("Negative numbers not allowed: " +
+                    negativeNumbers.toString().replaceAll("[\\[\\]]", ""));
+        }
+
+        return sum; // Return the sum of numbers
     }
 
     // Main method for testing
