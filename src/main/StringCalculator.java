@@ -5,7 +5,8 @@ public class StringCalculator {
         if (numbers.isEmpty()) {
             return 0; // Return 0 for an empty string
         }
-        return 1;
+        int sum = numbers.charAt(0) - '0';
+        return sum;
     }
 
     // Main method for testing
